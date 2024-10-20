@@ -14,6 +14,7 @@ import {GeoJSON} from "ol/format";
   templateUrl: './map.component.html',
   styleUrl: './map.component.less'
 })
+
 export class MapComponent implements OnInit {
   public map!: Map
 

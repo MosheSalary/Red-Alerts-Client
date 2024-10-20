@@ -9,17 +9,17 @@ import {environment} from "../../environments/environment";
 
 export class AlertsService {
 
-  private _AlertsHistoryUrl: string = environment.AlertsHistoryUrl;
+  private _HistoryAlertsUrl: string = environment.HistoryAlertsUrl;
   private _CurrentAlertsUrl: string = environment.CurrentAlertsUrl;
 
   constructor(private http: HttpClient) {}
 
-  get AlertsHistoryUrl(): string {
-    return this._AlertsHistoryUrl;
+  get HistoryAlertsUrl(): string {
+    return this._HistoryAlertsUrl;
   }
 
-  set AlertsHistoryUrl(value: string) {
-    this._AlertsHistoryUrl = value;
+  set HistoryAlertsUrl(value: string) {
+    this._HistoryAlertsUrl = value;
   }
 
   get CurrentAlertsUrl(): string {
@@ -31,7 +31,7 @@ export class AlertsService {
   }
 
   public get24HAlerts(): Observable<any> {
-    return this.http.get(this.AlertsHistoryUrl);
+    return this.http.get(this.HistoryAlertsUrl);
   }
 
   getAlertsEverySecond(): Observable<any> {
