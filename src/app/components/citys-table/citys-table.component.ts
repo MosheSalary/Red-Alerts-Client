@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AlertsService} from '../../services/alerts.service';
 import {MatTableDataSource} from '@angular/material/table';
-import {IAlertData} from "../../interfaces/alertData.interface";
-import {EAlertColumns} from "../../enums/alertColumns.enum";
+import {IAlertData} from "../../interfaces/alert-data.interface";
+import {EAlertColumns} from "../../enums/alert-columns.enum";
 
 @Component({
   selector: 'app-citys-table',
@@ -12,7 +12,7 @@ import {EAlertColumns} from "../../enums/alertColumns.enum";
 
 export class CitysTableComponent implements OnInit {
 
-  displayedColumns: string[] = [EAlertColumns.Date, EAlertColumns.City, EAlertColumns.Title];
+  displayedColumns: string[] = [EAlertColumns.Num,EAlertColumns.Date, EAlertColumns.City, EAlertColumns.Title];
   dataSource: MatTableDataSource<IAlertData> = new MatTableDataSource<IAlertData>();
 
   constructor(private _alertService: AlertsService) {}
