@@ -5,12 +5,12 @@ import {IAlertData} from "../../interfaces/alert-data.interface";
 import {EAlertColumns} from "../../enums/alert-columns.enum";
 
 @Component({
-  selector: 'app-citys-table',
-  templateUrl: './citys-table.component.html',
-  styleUrls: ['./citys-table.component.less']
+  selector: 'app-alerts-table',
+  templateUrl: './alerts-table.component.html',
+  styleUrls: ['./alerts-table.component.less']
 })
 
-export class CitysTableComponent implements OnInit {
+export class AlertsTableComponent implements OnInit {
 
   displayedColumns: string[] = [EAlertColumns.Num,EAlertColumns.Date, EAlertColumns.City, EAlertColumns.Title];
   dataSource: MatTableDataSource<IAlertData> = new MatTableDataSource<IAlertData>();
@@ -33,5 +33,10 @@ export class CitysTableComponent implements OnInit {
         console.error(error.message);
       }
     );
+  }
+
+  public applyFilter(event: Event): void {
+    const filterValue: string = (event.target as HTMLInputElement).value;
+    this.dataSource.filter  = filterValue.trim().toLowerCase();
   }
 }
