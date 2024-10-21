@@ -34,6 +34,7 @@ export class AlertsTableComponent implements OnInit {
       }
     );
   }
+
   public applyFilter(event: Event): void {
     const filterValue: string = (event.target as HTMLInputElement).value;
     this.dataSource.filter  = filterValue.trim().toLowerCase();
