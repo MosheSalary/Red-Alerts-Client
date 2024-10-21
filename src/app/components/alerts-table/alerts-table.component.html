@@ -1,5 +1,8 @@
 <div class="mat-elevation-z8 table-scroll">
   <div class="scroll-container">
+    <mat-form-field class="filter">
+      <input matInput (keyup)="applyFilter($event)"  placeholder="מיקום" #input>
+    </mat-form-field>
     <table mat-table [dataSource]="dataSource" class="mat-table">
       <ng-container matColumnDef="Num">
         <th mat-header-cell *matHeaderCellDef> Num </th>

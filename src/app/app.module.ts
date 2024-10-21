@@ -18,14 +18,14 @@ import {
   MatTable, MatTableModule
 } from "@angular/material/table";
 import {MatInput, MatInputModule} from "@angular/material/input";
-import { CitysTableComponent } from './components/citys-table/citys-table.component';
+import { AlertsTableComponent } from './components/alerts-table/alerts-table.component';
 import {CdkVirtualScrollViewport, ScrollingModule} from "@angular/cdk/scrolling";
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
-    CitysTableComponent,
+    AlertsTableComponent,
   ],
   imports: [
     BrowserModule,
