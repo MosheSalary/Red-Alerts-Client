@@ -1,31 +1,41 @@
 import {Component, OnInit} from '@angular/core';
-import {AlertsService} from '../../services/alerts.service';
 import {MatTableDataSource} from '@angular/material/table';
-import {IAlertData} from "../../interfaces/alert-data.interface";
-import {EAlertColumns} from "../../enums/alert-columns.enum";
+import {AlertsFetchService} from '../../services/alerts-fetch.service';
+import {AlertsParserService} from '../../services/alerts-parser.service';
+import {IAlertData} from '../../interfaces/alert-data.interface';
+import {EAlertColumns} from '../../enums/alert-columns.enum';
 
 @Component({
-  selector: 'app-alerts-table',
+  selector: 'alerts-table',
   templateUrl: './alerts-table.component.html',
-  styleUrls: ['./alerts-table.component.less']
+  styleUrls: ['./alerts-table.component.less'],
 })
-
 export class AlertsTableComponent implements OnInit {
 
-  displayedColumns: string[] = [EAlertColumns.Num,EAlertColumns.Date, EAlertColumns.City, EAlertColumns.Title];
-  dataSource: MatTableDataSource<IAlertData> = new MatTableDataSource<IAlertData>();
+  protected displayedColumns: string[] = [
+    EAlertColumns.Num,
+    EAlertColumns.Date,
+    EAlertColumns.City,
+    EAlertColumns.Title,
+  ];
+  protected dataSource: MatTableDataSource<IAlertData> = new MatTableDataSource<IAlertData>();
 
-  constructor(private _alertService: AlertsService) {}
+  private mockAlerts: IAlertData[] = [
+    { Date: '2024-10-29 20:43:51', City: 'תל אביב', Title: 'ירי רקטות וטילים' },
+    { Date: '2024-11-1 10:13:32', City: 'חיפה', Title: 'חדירת כלי טיס עוין' },
+    { Date: '2024-10-30 15:59:02', City: 'נתניה', Title: 'ירי רקטות וטילים' },
+  ];
 
-  ngOnInit(): void {
-    this._alertService.get24HAlerts().subscribe(
-      (response: any) => {
-        this.dataSource.data = response.map((alert: any) => {
-          let emoji = alert.title.includes('ירי רקטות וטילים') ? '🚀' : '✈️';
+  constructor(private _alertsFetchService: AlertsFetchService, private _alertsParserService: AlertsParserService) {}
+
+  public ngOnInit(): void {
+    this._alertsFetchService.fetchRawAlerts().subscribe(
+      (rawAlerts: any) => {
+        this.dataSource.data = this._alertsParserService.parseAlerts(rawAlerts).map((alert: IAlertData) => {
+          const emoji: string = alert.Title.includes('ירי רקטות וטילים') ? '🚀' : '✈️';
           return {
-            Date: alert.alertDate,
-            City: alert.data,
-            Title: `${alert.title} ${emoji}`
+            ...alert,
+            Title: `${alert.Title} ${emoji}`,
           };
         });
       },
@@ -35,8 +45,15 @@ export class AlertsTableComponent implements OnInit {
     );
   }
 
-  public applyFilter(event: Event): void {
-    const filterValue: string = (event.target as HTMLInputElement).value;
-    this.dataSource.filter  = filterValue.trim().toLowerCase();
-  }
+  // TODO: For run the mockData:
+  // public ngOnInit(): void {
+  //   this.dataSource.data = this.mockAlerts.map((alert: IAlertData) => {
+  //     const emoji: string = alert.Title.includes('ירי רקטות וטילים') ? '🚀' : '✈️';
+  //     return {
+  //       Date: alert.Date,
+  //       City: alert.City,
+  //       Title: `${alert.Title} ${emoji}`,
+  //     };
+  //   });
+  // }
 }
