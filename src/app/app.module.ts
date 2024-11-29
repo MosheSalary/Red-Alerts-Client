@@ -1,12 +1,11 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {NgModule} from '@angular/core';
+import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 import {HttpClientModule} from "@angular/common/http";
-import {AlertsService} from "./services/alerts.service";
-import { MapComponent } from './components/map/map.component';
+import {MapComponent} from './components/map/map.component';
 import {FormsModule} from "@angular/forms";
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {
   MatCell,
@@ -18,14 +17,17 @@ import {
   MatTable, MatTableModule
 } from "@angular/material/table";
 import {MatInput, MatInputModule} from "@angular/material/input";
-import { AlertsTableComponent } from './components/alerts-table/alerts-table.component';
+import {AlertsTableComponent} from './components/alerts-table/alerts-table.component';
 import {CdkVirtualScrollViewport, ScrollingModule} from "@angular/cdk/scrolling";
+import {HeaderComponent} from './components/header/header.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
     AlertsTableComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -48,11 +50,11 @@ import {CdkVirtualScrollViewport, ScrollingModule} from "@angular/cdk/scrolling"
     MatFormFieldModule,
     MatInputModule,
     CdkVirtualScrollViewport,
+    BrowserAnimationsModule,
     ScrollingModule
   ],
   providers: [
     provideClientHydration(),
-    AlertsService,
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
