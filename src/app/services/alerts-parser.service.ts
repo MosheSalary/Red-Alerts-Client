@@ -7,10 +7,10 @@ import {IAlertData} from "../interfaces/alert-data.interface";
 export class AlertsParserService {
 
   public parseAlerts(rawAlerts: any): IAlertData[] {
-    return rawAlerts.map((alert: IAlertData) => ({
-      Date: alert.Date,
-      City: alert.City,
-      Title: alert.Title,
+    return rawAlerts.map((alert: any) => ({
+      Date: alert.alertDate,
+      City: alert.data,
+      Title: alert.title,
     }));
   }
 }
