@@ -4,6 +4,9 @@ import {StadiaMaps} from "ol/source";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import {GeoJSON} from "ol/format";
+import {Feature} from "ol";
+import {Point} from "ol/geom";
+import {Icon, Style} from "ol/style";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +24,7 @@ export class MapLayerService {
     });
   }
 
-  createVectorLayerFromFile(geoJsonData: any): VectorLayer {
+  public createVectorLayerFromFile(geoJsonData: any): VectorLayer {
     const vectorSource = new VectorSource({
       format: new GeoJSON(),
       features: new GeoJSON().readFeatures(geoJsonData, {
@@ -33,5 +36,23 @@ export class MapLayerService {
     return new VectorLayer({
       source: vectorSource,
     });
+  }
+  public addMarker(vectorSource: VectorSource, coords: [number, number], alert: any, markerPngPath: string, markerScale: number, markerAnchor: number[]): void {
+    const feature = new Feature({
+      geometry: new Point(coords).transform('EPSG:4326', 'EPSG:3857'),
+      alert,
+    });
+
+    feature.setStyle(
+      new Style({
+        image: new Icon({
+          src: markerPngPath,
+          scale: markerScale,
+          anchor: markerAnchor,
+        }),
+      })
+    );
+
+    vectorSource.addFeature(feature);
   }
 }
