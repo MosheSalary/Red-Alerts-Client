@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import {MapService} from "../../services/map.service";
@@ -9,6 +9,7 @@ import VectorSource from "ol/source/Vector";
 import {IAlertData} from "../../interfaces/alert-data.interface";
 import {AlertsFetchService} from "../../services/alerts-fetch.service";
 import {HttpClient} from "@angular/common/http";
+import {AlertsParserService} from "../../services/alerts-parser.service";
 
 @Component({
   selector: 'map',
@@ -17,13 +18,13 @@ import {HttpClient} from "@angular/common/http";
 })
 
 export class MapComponent implements OnInit {
-  @Input() center: [number, number] = [34.8516, 31.0461];
-  @Input() zoom: number = 7.5;
-  @Input() geoJsonPath: string = 'assets/IsraelPolygons.geojson';
-  @Input() markerPngPath: string = 'assets/map-marker.png';
-  @Input() markerScale: number = 0.04;
-  @Input() markerAnchor: number[] = [0.5, 0.5];
-  @Input() zIndex: number = 100;
+  private readonly CENTER_COORDS: [number, number] = [34.8516, 31.0461];
+  private readonly ZOOM: number = 7.5;
+  private readonly GEO_JSON_PATH: string = 'assets/IsraelPolygons.geojson';
+  private readonly MARKER_PNG_PATH: string = 'assets/map-marker.png';
+  private readonly MARKER_SCALE: number = 0.04;
+  private readonly MARKER_ANCHOR: number[] = [0.5, 0.5];
+  private readonly ZINDEX: number = 100;
 
   public map!: Map;
   private _vectorSource: VectorSource = new VectorSource();
@@ -32,14 +33,15 @@ export class MapComponent implements OnInit {
   constructor(private _mapService: MapService,
                private _layerService: MapLayerService,
                private _alertsFetchService: AlertsFetchService,
+              private _alertsParserService: AlertsParserService,
               private _http: HttpClient) {}
 
   public ngOnInit(): void {
-    this.map = this._mapService.createMap('map', this.center, this.zoom);
+    this.map = this._mapService.createMap('map', this.CENTER_COORDS, this.ZOOM);
     const tileLayer: TileLayer<any> = this._layerService.createTileLayer();
     this.map.addLayer(tileLayer);
 
-    this._http.get(this.geoJsonPath).subscribe((geoJsonData:any) => {
+    this._http.get(this.GEO_JSON_PATH).subscribe((geoJsonData:any) => {
       const vectorLayer: VectorLayer<VectorSource<any>, any> = this._layerService.createVectorLayerFromFile(geoJsonData);
       this.map.addLayer(vectorLayer);
     });
@@ -49,15 +51,11 @@ export class MapComponent implements OnInit {
 
   private loadAlerts(): void {
     this._alertsFetchService.fetchRawAlerts().subscribe({
-      next: (rawAlerts) => {
-        const alerts: IAlertData[] = rawAlerts.map((alert: any) => ({
-          Date: alert.alertDate,
-          City: alert.data,
-          Title: alert.title,
-        }));
+      next: (rawAlerts: any) => {
+        const alerts: IAlertData[] = this._alertsParserService.parseAlerts(rawAlerts);
         this.addMarkersForAlerts(alerts);
       },
-      error: (error) => {
+      error: (error: Error) => {
         console.error('API fetch failed, using mock data', error.message);
         this.addMarkersForAlerts(this._alertsFetchService.getMockAlerts());
       },
@@ -65,16 +63,16 @@ export class MapComponent implements OnInit {
   }
 
   private addMarkersForAlerts(alerts: IAlertData[]): void {
-    alerts.forEach((alert) => {
-      this._mapService.geocodeCity(alert.City).then((coords) => {
+    alerts.forEach((alert: IAlertData) => {
+      this._mapService.geocodeCity(alert.City).then((coords: [number,number] | undefined) => {
         if (coords) {
-          this._layerService.addMarker(this._vectorSource, coords, alert, this.markerPngPath, this.markerScale, this.markerAnchor);
+          this._layerService.addMarker(this._vectorSource, coords, alert, this.MARKER_PNG_PATH, this.MARKER_SCALE, this.MARKER_ANCHOR);
         }
       });
     });
 
     this._vectorLayer.setSource(this._vectorSource);
-    this._vectorLayer.setZIndex(this.zIndex);
+    this._vectorLayer.setZIndex(this.ZINDEX);
     this.map.addLayer(this._vectorLayer);
   }
 }
