@@ -6,7 +6,5 @@ import {Component, Input} from '@angular/core';
   styleUrl: './header.component.less'
 })
 export class HeaderComponent {
-
   @Input() header: string = 'פרויקט צבע אדום 🚀';
-
 }

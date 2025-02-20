@@ -29,6 +29,7 @@ export class AlertsTableComponent implements OnInit {
           const emoji: string = alert.Title.includes('ירי רקטות וטילים') ? '🚀' : '✈️';
           return {
             ...alert,
+            City: alert.City.split(',')[0].trim(),
             Title: `${alert.Title} ${emoji}`,
           };
         });

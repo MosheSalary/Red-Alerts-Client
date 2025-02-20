@@ -21,6 +21,8 @@ import {AlertsTableComponent} from './components/alerts-table/alerts-table.compo
 import {CdkVirtualScrollViewport, ScrollingModule} from "@angular/cdk/scrolling";
 import {HeaderComponent} from './components/header/header.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {CdkDrag} from "@angular/cdk/drag-drop";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     MatInputModule,
     CdkVirtualScrollViewport,
     BrowserAnimationsModule,
-    ScrollingModule
+    ScrollingModule,
+    CdkDrag,
+    MatProgressSpinner
   ],
   providers: [
     provideClientHydration(),

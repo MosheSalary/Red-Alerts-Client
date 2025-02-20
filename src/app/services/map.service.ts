@@ -1,4 +1,4 @@
-import {Injectable, Input} from '@angular/core';
+import {Injectable} from '@angular/core';
 import OLMap from 'ol/Map';
 import View from 'ol/View';
 import {fromLonLat} from 'ol/proj';
@@ -9,7 +9,7 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root',
 })
 export class MapService {
-  @Input() maxZoom: number = 18;
+  private readonly MAX_ZOOM: number = 18;
 
   constructor(private _http: HttpClient) {}
 
@@ -19,23 +19,23 @@ export class MapService {
       view: new View({
         center: fromLonLat(center),
         zoom,
-        maxZoom: this.maxZoom,
+        maxZoom: this.MAX_ZOOM,
       }),
     });
   }
 
-  public async geocodeCity(city: string): Promise<[number, number] | null> {
+  public async geocodeCity(city: string): Promise<[number, number] | undefined> {
     const geocodeUrl = `${environment.geocodeBaseUrl}${encodeURIComponent(city)}, Israel`;
     try {
-      const results = await this._http.get<any[]>(geocodeUrl).toPromise();
+      const results: any[] | undefined = await this._http.get<any[]>(geocodeUrl).toPromise();
       if (results && results[0]) {
         const { lat, lon } = results[0];
         return [parseFloat(lon), parseFloat(lat)];
       }
-      return null;
+      return undefined;
     } catch (error) {
       console.error(`Geocoding failed for city: ${city}`, error);
-      return null;
+      return undefined;
     }
   }
 }
