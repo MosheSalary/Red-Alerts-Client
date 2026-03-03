@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {environment} from '../../environments/environment';
-import {IAlertData} from "../interfaces/alert-data.interface";
+import {environment} from '../../../environments/environment';
+import {IAlertData} from "../../interfaces/alert-data.interface";
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class AlertsFetchService {
     return this._http.get(this._historyAlertsUrl);
   }
 
-  getMockAlerts(): IAlertData[] {
+  public getMockAlerts(): IAlertData[] {
     return [
       { Date: '2024-12-25 04:22:24', City: 'נווה ירק', Title: 'ירי רקטות וטילים' },
       { Date: '2024-12-25 04:21:51', City: 'בית אלעזרי', Title: 'ירי רקטות וטילים' },
