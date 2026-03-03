@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {IAlertData} from "../interfaces/alert-data.interface";
+import {IAlertData} from "../../interfaces/alert-data.interface";
 
 @Injectable({
   providedIn: 'root',

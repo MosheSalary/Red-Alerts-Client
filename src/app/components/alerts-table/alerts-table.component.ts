@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {AlertsFetchService} from '../../services/alerts-fetch.service';
-import {AlertsParserService} from '../../services/alerts-parser.service';
+import {AlertsFetchService} from '../../services/alerts/alerts-fetch.service';
+import {AlertsParserService} from '../../services/alerts/alerts-parser.service';
 import {IAlertData} from '../../interfaces/alert-data.interface';
 import {EAlertColumns} from '../../enums/alert-columns.enum';
 

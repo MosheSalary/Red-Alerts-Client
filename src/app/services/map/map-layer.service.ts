@@ -5,27 +5,30 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import {GeoJSON} from "ol/format";
 import {Feature} from "ol";
-import {Point} from "ol/geom";
+import {Geometry, Point} from "ol/geom";
 import {Icon, Style} from "ol/style";
+import {IAlertData} from "../../interfaces/alert-data.interface";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapLayerService {
 
+  private readonly LAYER_NAME: string = 'alidade_smooth_dark'
+
   constructor() {}
 
   public createTileLayer(): TileLayer<any> {
     return new TileLayer({
       source: new StadiaMaps({
-        layer: 'alidade_smooth_dark',
+        layer: this.LAYER_NAME,
         retina: true,
       }),
     });
   }
 
   public createVectorLayerFromFile(geoJsonData: any): VectorLayer {
-    const vectorSource = new VectorSource({
+    const vectorSource: VectorSource<Feature<Geometry>> = new VectorSource({
       format: new GeoJSON(),
       features: new GeoJSON().readFeatures(geoJsonData, {
         dataProjection: 'EPSG:4326',
@@ -37,8 +40,9 @@ export class MapLayerService {
       source: vectorSource,
     });
   }
-  public addMarker(vectorSource: VectorSource, coords: [number, number], alert: any, markerPngPath: string, markerScale: number, markerAnchor: number[]): void {
-    const feature = new Feature({
+
+  public addMarker(vectorSource: VectorSource, coords: [number, number], alert: IAlertData, markerPngPath: string, markerScale: number, markerAnchor: number[]): void {
+    const feature: Feature<Point> = new Feature({
       geometry: new Point(coords).transform('EPSG:4326', 'EPSG:3857'),
       alert,
     });

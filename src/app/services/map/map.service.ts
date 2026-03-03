@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import OLMap from 'ol/Map';
 import View from 'ol/View';
 import {fromLonLat} from 'ol/proj';
-import {environment} from "../../environments/environment";
+import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
@@ -25,7 +25,7 @@ export class MapService {
   }
 
   public async geocodeCity(city: string): Promise<[number, number] | undefined> {
-    const geocodeUrl = `${environment.geocodeBaseUrl}${encodeURIComponent(city)}, Israel`;
+    const geocodeUrl: string = `${environment.geocodeBaseUrl}${encodeURIComponent(city)}, Israel`;
     try {
       const results: any[] | undefined = await this._http.get<any[]>(geocodeUrl).toPromise();
       if (results && results[0]) {

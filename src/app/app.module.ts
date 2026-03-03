@@ -1,61 +1,57 @@
-import {NgModule} from '@angular/core';
-import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {HttpClientModule} from "@angular/common/http";
-import {MapComponent} from './components/map/map.component';
-import {FormsModule} from "@angular/forms";
-import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
-import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
-import {
-  MatCell,
-  MatCellDef,
-  MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef,
-  MatRow, MatRowDef,
-  MatTable, MatTableModule
-} from "@angular/material/table";
-import {MatInput, MatInputModule} from "@angular/material/input";
-import {AlertsTableComponent} from './components/alerts-table/alerts-table.component';
-import {CdkVirtualScrollViewport, ScrollingModule} from "@angular/cdk/scrolling";
-import {HeaderComponent} from './components/header/header.component';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {CdkDrag} from "@angular/cdk/drag-drop";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import { NgModule } from '@angular/core';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HttpClientModule } from "@angular/common/http";
+import { MapComponent } from './components/map/map.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatTableModule } from "@angular/material/table";
+import { MatInputModule } from "@angular/material/input";
+import { ScrollingModule } from "@angular/cdk/scrolling";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatButtonModule } from "@angular/material/button";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { MatSelectModule } from "@angular/material/select";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatIconModule } from "@angular/material/icon";
+import { MatRadioModule } from "@angular/material/radio";   // ✅ needed
+
+import { AlertsTableComponent } from './components/alerts-table/alerts-table.component';
+import { HeaderComponent } from './components/header/header.component';
+import { MapButtonsComponent } from './components/map-buttons/map-buttons.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
     AlertsTableComponent,
-    HeaderComponent
+    HeaderComponent,
+    MapButtonsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    MatFormField,
-    MatTable,
-    MatColumnDef,
-    MatHeaderCell,
-    MatInput,
-    MatHeaderRow,
-    MatCell,
-    MatRow,
-    MatCellDef,
-    MatRowDef,
-    MatHeaderRowDef,
-    MatHeaderCellDef,
-    MatTableModule,
-    MatFormFieldModule,
-    MatInputModule,
-    CdkVirtualScrollViewport,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     ScrollingModule,
-    CdkDrag,
-    MatProgressSpinner
+
+    MatFormFieldModule,
+    MatTableModule,
+    MatInputModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatIconModule,
+    MatRadioModule
   ],
   providers: [
     provideClientHydration(),
@@ -63,4 +59,4 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
